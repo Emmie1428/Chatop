@@ -23,7 +23,7 @@ export class PrismaRepository {
         });
     }
 
-    //Cherche un utilisateur par son id pour GET /iser/:id //
+    //Cherche un utilisateur par son id pour GET /user/:id //
     async findUserById(id: number) {
         return this.prisma.users.findUnique({
             where: { id },
