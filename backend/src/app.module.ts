@@ -9,8 +9,14 @@ import { PrismaService } from './prisma.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 
-import { UsersService } from './user/users.service';
 import { UsersController } from './user/users.controller';
+import { UsersService } from './user/users.service';
+
+import { RentalsController } from './rental/rentals.controller';
+import { RentalsService } from './rental/rentals.service';
+
+import { MessagesController } from './message/messages.controller';
+import { MessagesService } from './message/messages.service';
 
 import { PrismaRepository } from './repository/prisma.repository';
 
@@ -37,6 +43,8 @@ import { PrismaRepository } from './repository/prisma.repository';
     AppController,
     AuthController,
     UsersController,
+    RentalsController,
+    MessagesController,
   ],
 
   providers: [
@@ -45,6 +53,8 @@ import { PrismaRepository } from './repository/prisma.repository';
     PrismaRepository,
     AuthService,
     UsersService,
+    RentalsService,
+    MessagesService,
   ],
 })
 export class AppModule {}

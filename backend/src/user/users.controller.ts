@@ -1,22 +1,20 @@
 import {
   Controller,
-  createParamDecorator,
-  ExecutionContext,
   Get,
+  Param,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
-const User = createParamDecorator(
-  (_data: unknown, context: ExecutionContext) =>
-    context.switchToHttp().getRequest().user,
-);
+import { UsersService } from './users.service';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
-  @Get('profile')
-  @UseGuards(AuthGuard('jwt'))
-  getProfile(@User() user: unknown) {
-    return user;
+  constructor(private readonly usersService: UsersService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.usersService.findById(Number(id));
   }
 }

@@ -1,5 +1,5 @@
 import {
-  ConflictException,
+  BadRequestException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -21,7 +21,7 @@ export class AuthService {
     const existingUser = await this.usersService.findByEmail(body.email);
 
     if (existingUser) {
-      throw new ConflictException('Cet email est déjà utilisé');
+      throw new BadRequestException('Email already exists');
     }
 
     const hashedPassword = await bcrypt.hash(body.password, 10);
@@ -32,10 +32,13 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return {
-      id: user.id,
-      name: user.name,
+    const payload = {
+      sub: user.id,
       email: user.email,
+    };
+
+    return {
+      token: await this.jwtService.signAsync(payload),
     };
   }
 

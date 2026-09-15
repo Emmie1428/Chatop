@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { PrismaRepository } from '../repository/prisma.repository';
 
 @Injectable()
@@ -15,5 +16,9 @@ export class UsersService {
     password: string;
   }) {
     return this.repository.createUser(data);
+  }
+
+  async findById(id: number) {
+    return this.repository.findUserById(id);
   }
 }
