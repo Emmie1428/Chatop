@@ -1,19 +1,67 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+
+import { UsersService } from '../user/users.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  async register(body: { name: string; email: string; password: string }) {
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async register(body: RegisterDto) {
+    const existingUser = await this.usersService.findByEmail(body.email);
+
+    if (existingUser) {
+      throw new ConflictException('Cet email est déjà utilisé');
+    }
+
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+
+    const user = await this.usersService.createUser({
+      name: body.name,
+      email: body.email,
+      password: hashedPassword,
+    });
+
     return {
-      message: 'register OK',
-      user: body,
+      id: user.id,
+      name: user.name,
+      email: user.email,
     };
   }
 
-  async login(body: { email: string; password: string }) {
+  async login(body: LoginDto) {
+    const user = await this.usersService.findByEmail(body.email);
+
+    if (!user) {
+      throw new UnauthorizedException('Email ou mot de passe incorrect');
+    }
+
+    const passwordValid = await bcrypt.compare(
+      body.password,
+      user.password,
+    );
+
+    if (!passwordValid) {
+      throw new UnauthorizedException('Email ou mot de passe incorrect');
+    }
+
+    const payload = {
+      sub: user.id,
+      email: user.email,
+    };
+
     return {
-      message: 'login OK',
-      credentials: body,
+      token: await this.jwtService.signAsync(payload),
     };
   }
 }
-
