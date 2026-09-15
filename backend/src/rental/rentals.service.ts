@@ -5,8 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { PrismaRepository } from '../repository/prisma.repository';
-import { CreateRentalDto } from './dto/create-rental.dto';
-import { UpdateRentalDto } from './dto/update-rental.dto';
+import { CreateRentalDto, UpdateRentalDto } from '../dto/request.dto'
 
 @Injectable()
 export class RentalsService {
@@ -21,7 +20,7 @@ export class RentalsService {
         name: rental.name,
         surface: Number(rental.surface),
         price: Number(rental.price),
-        picture: rental.picture,
+        picture: rental.picture ? `http://localhost:3001/uploads/${rental.picture}` : '',
         description: rental.description,
         owner: {
           id: rental.users.id,
@@ -45,7 +44,7 @@ export class RentalsService {
       name: rental.name,
       surface: Number(rental.surface),
       price: Number(rental.price),
-      picture: rental.picture,
+      picture: rental.picture ? `http://localhost:3001/uploads/${rental.picture}` : '',
       description: rental.description,
       owner: {
         id: rental.users.id,

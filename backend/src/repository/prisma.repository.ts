@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { RegisterDto, UpdateRentalDto, CreateMessageDto } from '../dto/request.dto';
 
 @Injectable()
 export class PrismaRepository {
@@ -13,11 +14,7 @@ export class PrismaRepository {
     }
 
     //Créer un utilisateur pour POST /auth/register //
-    async createUser(data: {
-        name: string;
-        email: string;
-        password: string;
-    }) {
+    async createUser(data: RegisterDto) {
         return this.prisma.users.create({
         data,
         });
@@ -81,28 +78,15 @@ export class PrismaRepository {
     }
 
     //Modifie une annonce de location pour PUT /rentals/:id //
-    async updateRental(
-        id: number,
-        data: {
-        name?: string;
-        surface?: number;
-        price?: number;
-        picture?: string;
-        description?: string;
-        },
-    ) {
+    async updateRental(id: number, data: UpdateRentalDto) {
         return this.prisma.rentals.update({
             where: { id },
             data,
         });
-  }
+    }
 
     //Crée un message pour POST /messages//
-    async createMessage(data: {
-        rental_id: number;
-        user_id: number;
-        message: string;
-    }) {
+    async createMessage(data: CreateMessageDto) {
         return this.prisma.messages.create({
             data,
         });

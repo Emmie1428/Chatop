@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -54,10 +55,14 @@ export default function Home() {
 
       // Actualisation de la liste des locations
       await refetch();
-    } catch (error) {
-      setFormError(
-        "Une erreur est survenue lors de l'ajout de la location.",
-      );
+    } catch (error: any) {
+      console.error('Erreur création location:', error);
+  console.error('Réponse backend:', error.response?.data);
+
+  setFormError(
+    error.response?.data?.message ||
+      "Une erreur est survenue lors de l'ajout de la location.",
+  );
     } finally {
       setIsSubmitting(false);
     }

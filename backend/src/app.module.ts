@@ -19,12 +19,19 @@ import { MessagesController } from './message/messages.controller';
 import { MessagesService } from './message/messages.service';
 
 import { PrismaRepository } from './repository/prisma.repository';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+    }),
+
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
 
     JwtModule.registerAsync({
@@ -36,7 +43,7 @@ import { PrismaRepository } from './repository/prisma.repository';
           expiresIn: '1d',
         },
       }),
-    }),
+    })
   ],
 
   controllers: [

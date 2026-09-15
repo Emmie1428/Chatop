@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { PrismaRepository } from '../repository/prisma.repository';
-import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateMessageDto } from '../dto/request.dto'
 
 @Injectable()
 export class MessagesService {

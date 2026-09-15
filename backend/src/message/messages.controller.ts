@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 
 import { MessagesService } from './messages.service';
-import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateMessageDto } from '../dto/request.dto'
 import { JwtAuthGuard } from '../auth/jwt.guard';
 
 @Controller('messages')

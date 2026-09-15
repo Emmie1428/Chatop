@@ -14,6 +14,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, //Évite l'injection de propriétés//
+      transform: true  //Transforme les valeurs reçues dans les bons types//
     }),
   );
 
