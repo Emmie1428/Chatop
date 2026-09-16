@@ -12,14 +12,13 @@ export class MessagesService {
   constructor(private readonly repository: PrismaRepository) {}
 
   async create(data: CreateMessageDto, userId: number) {
-    const rental = await this.repository.findRentalById(
-      data.rental_id,
-    );
+    const rental = await this.repository.findRentalById(data.rental_id,);
 
     if (!rental) {
       throw new NotFoundException('Rental not found');
     }
 
+    //Empêche d,envoyer un message à une user qui n,est pas le proprio de l'annonce//
     if (rental.owner_id !== data.user_id) {
       throw new ForbiddenException('Destinataire invalide');
     }

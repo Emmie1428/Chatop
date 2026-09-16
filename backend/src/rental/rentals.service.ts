@@ -77,6 +77,7 @@ export class RentalsService {
       throw new NotFoundException('Rental not found');
     }
 
+    //Empêche un user de modifier una annonce qui n'a pas été créée par lui//
     if (rental.owner_id !== userId) {
       throw new ForbiddenException(
         'Vous ne pouvez pas modifier cette location',

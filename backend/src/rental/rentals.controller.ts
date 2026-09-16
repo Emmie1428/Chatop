@@ -23,18 +23,21 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class RentalsController {
   constructor(private readonly rentalsService: RentalsService) {}
 
+  //Récupère toutes les annnces de location//
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return this.rentalsService.findAll();
   }
 
+  //Récupère une annonce précise par son id//
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.rentalsService.findById(Number(id));
   }
 
+  //Créer une nouvelle annonce//
   @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(
@@ -67,6 +70,7 @@ export class RentalsController {
     );
   }
 
+  //Modifie une annocne existatnte récupérée par son id//
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(

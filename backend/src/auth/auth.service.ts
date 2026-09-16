@@ -45,7 +45,7 @@ export class AuthService {
     const user = await this.usersService.findByEmail(body.email);
 
     if (!user) {
-      throw new UnauthorizedException('Email ou mot de passe incorrect');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const passwordValid = await bcrypt.compare(
@@ -54,7 +54,7 @@ export class AuthService {
     );
 
     if (!passwordValid) {
-      throw new UnauthorizedException('Email ou mot de passe incorrect');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const payload = {

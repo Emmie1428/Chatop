@@ -1,6 +1,6 @@
 
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -14,7 +14,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, //Évite l'injection de propriétés//
-      transform: true  //Transforme les valeurs reçues dans les bons types//
+      transform: true,  //Transforme les valeurs reçues dans les bons types//
+      exceptionFactory: () => new BadRequestException('Validation error')
     }),
   );
 

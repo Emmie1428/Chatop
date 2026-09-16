@@ -19,18 +19,21 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  //Inscrire un nouvel utilsateur//
   @HttpCode(HttpStatus.OK)
   @Post('register')
   async register(@Body() body: RegisterDto) {
     return this.authService.register(body);
   }
 
+  //Connecte un utilisateur//
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() body: LoginDto) {
     return this.authService.login(body);
   }
 
+  //Récupère l'utilisateur connecté//
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('me')

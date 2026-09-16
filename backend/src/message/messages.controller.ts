@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Post,
+  HttpCode,
+  HttpStatus,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -14,19 +16,21 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 @ApiBearerAuth()
 @Controller('messages')
 export class MessagesController {
-  constructor(
-    private readonly messagesService: MessagesService,
-  ) {}
+    constructor(
+        private readonly messagesService: MessagesService,
+    ) {}
 
-  @UseGuards(JwtAuthGuard)
-  @Post()
-  async create(
-    @Body() body: CreateMessageDto,
-    @Request() request: any,
-  ) {
-    return this.messagesService.create(
-      body,
-      request.user.id,
-    );
-  }
+    //Envoie un message au propriétaire d'une location//
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Post()
+    async create(
+        @Body() body: CreateMessageDto,
+        @Request() request: any,
+    ) {
+        return this.messagesService.create(
+        body,
+        request.user.id,
+        );
+    }
 }

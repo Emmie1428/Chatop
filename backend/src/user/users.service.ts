@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PrismaRepository } from '../repository/prisma.repository';
 
@@ -19,6 +19,10 @@ export class UsersService {
   }
 
   async findById(id: number) {
+    const user = await this.repository.findUserById(id);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
     return this.repository.findUserById(id);
   }
 }
