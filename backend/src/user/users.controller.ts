@@ -7,7 +7,9 @@ import {
 
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

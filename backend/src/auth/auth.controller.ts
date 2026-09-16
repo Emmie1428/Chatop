@@ -12,6 +12,7 @@ import {
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt.guard';
 import { RegisterDto, LoginDto } from '../dto/request.dto'
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 
 @Controller('auth')
@@ -30,6 +31,7 @@ export class AuthController {
     return this.authService.login(body);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@Request() request: any) {

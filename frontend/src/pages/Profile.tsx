@@ -1,11 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
-import { authAPI } from '../services/api';
+/*import { useQuery } from '@tanstack/react-query';
+import { authAPI } from '../services/api';*/
+import { useAuth } from '../data/auth-context';
 
-export default function Profile() {
+/*export default function Profile() {
   const { data: user, isLoading, error } = useQuery({
     queryKey: ['currentUser'],
     queryFn: authAPI.getCurrentUser,
-  });
+  });*/
+
+export default function Profile() {
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -15,7 +19,7 @@ export default function Profile() {
     );
   }
 
-  if (error || !user) {
+  if (!user) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-xl text-red-600">Erreur lors du chargement du profil</p>

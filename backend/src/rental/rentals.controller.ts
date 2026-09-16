@@ -16,7 +16,9 @@ import { RentalsService } from './rentals.service';
 import { CreateRentalDto, UpdateRentalDto } from '../dto/request.dto'
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { diskStorage } from 'multer';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('rentals')
 export class RentalsController {
   constructor(private readonly rentalsService: RentalsService) {}
