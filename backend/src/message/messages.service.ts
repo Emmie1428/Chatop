@@ -18,7 +18,7 @@ export class MessagesService {
       throw new NotFoundException('Rental not found');
     }
 
-    //Empêche d,envoyer un message à une user qui n,est pas le proprio de l'annonce//
+    //Empêche d'envoyer un message à une user qui n,est pas le proprio de l'annonce//
     if (rental.owner_id !== data.user_id) {
       throw new ForbiddenException('Destinataire invalide');
     }
